@@ -81,7 +81,7 @@ function Validator(formSelector, options = {}){
         function handleValidate(event){         
             var rules = formRules[event.target.name]
             var errorMessage; 
-
+            console.log(event.target) 
             // rules.forEach(element => {
                 // errorMessage = element(event.target.value);
                 // console.log(errorMessage)    
@@ -92,9 +92,10 @@ function Validator(formSelector, options = {}){
                 switch(event.target.type){
                     case 'radio':
                     case 'checkbox':
-                        console.log(event.target)
-                        console.log( formElement.querySelector(rule.selector + ':checked'))
-
+                        console.log(event.target.checked)
+                        // sửa lỗi rule.selector = 'input[name="gender"]' ko có trong đây
+                        console.log( formElement.querySelector('input[name="gender"]:checked'))
+                        // chỗ code cần sửa ? checked
                         errorMessage = rules[i](
                             formElement.querySelector(rule.selector + ':checked')
                         );
@@ -143,7 +144,7 @@ function Validator(formSelector, options = {}){
             // truyền 1 object form có key là target, value là input vào hàm hanleValidate
             if(handleValidate( ruleInput)){
                 // nếu 1 trong các thẻ input trả về khác undefined thì isValid sẽ fail
-                isValid = false;
+                isValid = false;x``
             }
         }
         // Khi không có lỗi thì submit form 
