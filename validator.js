@@ -12,7 +12,6 @@ function Validator(formSelector, options = {}){
     
     // function tìm giá trị value của ô nhập mật khẩu có id là password
     function getConfirmValue(){
-        console.log('password: ' + document.querySelector('#password').value)
         return document.querySelector('#password').value;
     }
 
@@ -32,6 +31,11 @@ function Validator(formSelector, options = {}){
         },
         confirmation : function(value){
                 return value === getConfirmValue() ? undefined : 'Giá trị nhập vào không chính xác';
+        },
+        phone : function(phone){
+            return function(value){
+                return value.length == phone ? undefined : `Vui lòng nhập ít nhất ${phone} con số`
+            }
         },
     }
     // Lấy ra form element trong DOM theo formSelector
@@ -81,7 +85,7 @@ function Validator(formSelector, options = {}){
         function handleValidate(event){         
             var rules = formRules[event.target.name]
             var errorMessage; 
-            console.log(event.target) 
+          
             // rules.forEach(element => {
                 // errorMessage = element(event.target.value);
                 // console.log(errorMessage)    
@@ -92,10 +96,10 @@ function Validator(formSelector, options = {}){
                 switch(event.target.type){
                     case 'radio':
                     case 'checkbox':
-                        console.log(event.target.checked)
-                        // sửa lỗi rule.selector = 'input[name="gender"]' ko có trong đây
-                        console.log( formElement.querySelector('input[name="gender"]:checked'))
-                        // chỗ code cần sửa ? checked
+                        // code sua ma ko hieu
+                        var rule = {
+                            selector: 'input[name="gender"]'
+                        }   
                         errorMessage = rules[i](
                             formElement.querySelector(rule.selector + ':checked')
                         );
@@ -144,7 +148,7 @@ function Validator(formSelector, options = {}){
             // truyền 1 object form có key là target, value là input vào hàm hanleValidate
             if(handleValidate( ruleInput)){
                 // nếu 1 trong các thẻ input trả về khác undefined thì isValid sẽ fail
-                isValid = false;x``
+                isValid = false;
             }
         }
         // Khi không có lỗi thì submit form 
